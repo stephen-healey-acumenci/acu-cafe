@@ -1,0 +1,5 @@
+bin/
+spa/node_modules/
+.angular
+obj/
+*.csproj.user

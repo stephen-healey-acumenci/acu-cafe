@@ -1,0 +1,25 @@
+services:
+  api:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    working_dir: /app
+    build:
+      context: ./api
+    volumes:
+      - ./api:/app
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    command: ["/bin/sh", "-c", "dotnet restore && dotnet watch run --urls http://0.0.0.0:5000"]
+
+  spa:
+    image: node:20-alpine
+    working_dir: /app
+    build:
+      context: ./spa
+    volumes:
+      - ./spa:/app:rw
+      - /app/node_modules
+    ports:
+      - "4200:4200"
+    command: ["/bin/sh", "-c", "npm install -g @angular/cli && npm install && ng serve --poll 1000 --host 0.0.0.0"]
